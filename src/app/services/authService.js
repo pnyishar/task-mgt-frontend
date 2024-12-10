@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import API from '@/utils/API';
-import { errorHandler } from '@/utils/constants';
+import { roles, errorHandler } from '@/utils/constants';
 
 // User login
 // params: email/username and password
@@ -11,10 +11,20 @@ export const loginAsync = createAsyncThunk(
       const response = await API.post('/auth/signIn', formData);
 
       if (response.status === 200) {
-        toast.success(`Welcome ${response.data.fullName}!`);
-        return response.data;
+        const user = response.data;
+        toast.success(`Welcome ${user.fullName}!`);
+
+        // Navigate to dashboard based on role
+        const role = user?.roles[0]?.name;
+        if (role === roles.SUPERADMIN) {
+          navigate('/admin/dashboard');
+        } else if (role === roles.USER) {
+          navigate('/user/dashboard');
+        }
+
+        return user; // Save user in Redux store
       } else {
-        return navigate('/auth/signin');
+        return thunkAPI.rejectWithValue(response.data);
       }
     } catch (err) {
       errorHandler(err, toast, thunkAPI);

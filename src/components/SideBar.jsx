@@ -1,40 +1,50 @@
-import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import React from 'react';
+import { NavLink } from 'react-router-dom';
 import { roles } from '@/utils/constants';
-import { useNavigate } from 'react-router-dom';
-import Sidebar from '@/components/Sidebar';
+import { useSelector } from 'react-redux';
 
-// eslint-disable-next-line react/prop-types
-const AuthLayout = ({ children, title }) => {
-  const navigate = useNavigate();
+const Sidebar = () => {
+  // Get the role from the Redux store
   const { user } = useSelector((store) => store.auth);
+  const role = user?.roles[0]?.name; // Assumes roles is an array
 
-  useEffect(() => {
-    document.title = `${title} | ${import.meta.env.VITE_APP_TITLE}`;
-  }, [title]);
+  // Define menu items based on role
+  const menuItems = {
+    [roles.SUPERADMIN]: [
+      { path: '/admin/dashboard', label: 'Dashboard' },
+      { path: '/admin/users', label: 'Manage Users' },
+      { path: '/admin/tasks', label: 'Manage Tasks' },
+      { path: '/admin/settings', label: 'Settings' },
+    ],
+    [roles.USER]: [
+      { path: '/user/dashboard', label: 'Home' },
+      { path: '/user/profile', label: 'Profile' },
+      { path: '/user/settings', label: 'Settings' },
+    ],
+  };
 
-  useEffect(() => {
-    if (!user?.token) {
-      return navigate('/auth/login');
-    }
-
-    if (user?.roles[0]?.name === roles.SUPERADMIN) {
-      navigate('/admin/dashboard');
-    } else if (user?.roles[0]?.name === roles.USER) {
-      navigate('/user/dashboard');
-    }
-  }, [user, navigate]);
-
-  const userRole = user?.roles[0]?.name;
+  const items = menuItems[role] || [];
 
   return (
-    <div className="flex h-screen">
-      <Sidebar role={userRole} />
-
-      {/* Main Content Area */}
-      <div className="flex-1 p-4 bg-gray-100 overflow-y-auto">{children}</div>
+    <div className="w-64 bg-green-700 text-white h-full p-4">
+      <h2 className="text-lg font-bold mb-4">Task Management</h2>
+      <nav>
+        {items.map((item) => (
+          <NavLink
+            key={item.path}
+            to={item.path}
+            className={({ isActive }) =>
+              `block px-4 py-2 rounded ${
+                isActive ? 'bg-green-800' : 'hover:bg-green-700'
+              }`
+            }
+          >
+            {item.label}
+          </NavLink>
+        ))}
+      </nav>
     </div>
   );
 };
 
-export default AuthLayout;
+export default Sidebar;

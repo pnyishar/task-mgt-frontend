@@ -1,11 +1,9 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import {
-  authSlice,
-  roleSlice,
-} from '../slices';
+import { authSlice, roleSlice, adminSlice } from '../slices';
 
 // eslint-disable-next-line react-refresh/only-export-components
 export default combineReducers({
   auth: authSlice,
   role: roleSlice,
+  admin: adminSlice,
 });

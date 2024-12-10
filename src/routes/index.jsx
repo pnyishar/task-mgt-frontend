@@ -5,6 +5,7 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from 'react-router-dom';
+import { roles } from '@/utils/constants';
 
 // Landing route
 const LandingPage = lazy(() => import('@/features/LandingPage'));
@@ -15,9 +16,12 @@ const Signup = lazy(() => import('@/features/auth/SignupUser'));
 
 // Super Admin routes
 const Dashboard = lazy(() => import('@/features/admin/Dashboard'));
+const User = lazy(() => import('@/features/admin/User'));
+const Task = lazy(() => import('@/features/admin/Task'));
 
 import ProtectedRoute from '@/utils/ProtectedRoute';
 import ErrorBoundary from '@/utils/ErrorBoundary';
+import DashboardLayout from '@/layouts/DashboardLayout';
 
 const routers = createBrowserRouter(
   createRoutesFromElements(
@@ -34,16 +38,17 @@ const routers = createBrowserRouter(
       </Route>
       <Route path="*" element={<ErrorBoundary />} />
 
-      <Route path="admin">
-        <Route
-          index
-          path="dashboard"
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          }
-        />
+      <Route
+        path="admin"
+        element={
+          <ProtectedRoute allowedRoles={[roles.SUPERADMIN]}>
+            <DashboardLayout />
+          </ProtectedRoute>
+        }
+      >
+        <Route path="dashboard" element={<Dashboard />} />
+        <Route path="user" element={<User />} />
+        <Route path="task" element={<Task />} />
       </Route>
     </Fragment>
   )
