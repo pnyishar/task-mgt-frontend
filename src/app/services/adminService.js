@@ -36,6 +36,25 @@ export const getAllUsersAsync = createAsyncThunk(
   }
 );
 
+export const getAllTasksAsync = createAsyncThunk(
+  'admin/allTasks',
+  async ({ toast, limit = 10, page = 0, searchTerm = null }, thunkAPI) => {
+    try {
+      const response = (
+        await API.get(
+          `/task/all?limit=${limit}&page=${page}&searchTerm=${searchTerm}`
+        )
+      ).data;
+      console.log('All Tasks:', response.data);
+      if (response.status === 'OK') {
+        return response.data;
+      }
+    } catch (err) {
+      errorHandler(err, toast, thunkAPI);
+    }
+  }
+);
+
 export const updateUserAsync = createAsyncThunk(
   'admin/updateUser',
   async ({ userId, formData, toast, navigate }, thunkAPI) => {
