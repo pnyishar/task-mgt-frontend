@@ -1,8 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getAdminDashboardDataAsync } from '../services/adminService';
+import {
+  getAdminDashboardDataAsync,
+  getAllUsersAsync,
+} from '../services/adminService';
 
 const initialState = {
   loading: false,
+  users: [],
+  currentPage: 1,
+  totalPages: 1,
+  totalUsers: 0,
+  loading: false,
+  error: null,
 };
 
 export const adminSlice = createSlice({
@@ -21,6 +30,21 @@ export const adminSlice = createSlice({
       .addCase(getAdminDashboardDataAsync.rejected, (state, action) => {
         state.errors = action.payload;
         state.loading = false;
+      })
+      .addCase(getAllUsersAsync.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getAllUsersAsync.fulfilled, (state, action) => {
+        const { page, total, entities } = action.payload;
+        state.users = entities;
+        state.currentPage = page + 1;
+        state.totalUsers = total;
+        state.totalPages = Math.ceil(total / 10);
+        state.loading = false;
+      })
+      .addCase(getAllUsersAsync.rejected, (state, action) => {
+        state.loading = false;
+        state.errors = action.payload;
       });
   },
 });
