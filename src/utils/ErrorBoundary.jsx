@@ -1,4 +1,4 @@
-import { arrow_icon, tradeCycle } from '@/assets';
+import { arrow_icon, task_logo } from '@/assets';
 import { CustomIcon } from '@/components';
 import { Link, useNavigate, useRouteError } from 'react-router-dom';
 
@@ -13,8 +13,8 @@ function errorPage() {
         <div className="absolute top-6 mx-auto">
           <Link to={'/'} className="mx-auto mt-6">
             <CustomIcon
-              icon={tradeCycle}
-              title="tradeCycle"
+              icon={task_logo}
+              title="Task Management"
               className="text-center"
             />
           </Link>

@@ -2,7 +2,6 @@ export { default as arrow_icon } from './arrow_icon.png';
 export { default as tradeCycle } from './tradeCycle.png';
 export { default as tradeCycleBlack } from './tradeCycleBlack.png';
 export { default as task_logo } from './task-logo.png';
-export {default as task_mgt_logo} from './task-logo-1.png'
 export { default as add_button } from './add_button.png';
 export { default as iYaaWuAdmin } from './iYaaWuAdmin.png';
 export { default as black_arrow } from './black-arrow.png';

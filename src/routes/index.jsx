@@ -22,6 +22,9 @@ const Settings = lazy(() => import('@/features/admin/Settings'));
 
 // User routes
 const UDashboard = lazy(() => import('@/features/user/Dashboard'));
+const UTask = lazy(() => import('@/features/user/Task'));
+const UProfile = lazy(() => import('@/features/user/Profile'));
+const USettings = lazy(() => import('@/features/user/Settings'));
 
 import ProtectedRoute from '@/utils/ProtectedRoute';
 import ErrorBoundary from '@/utils/ErrorBoundary';
@@ -65,6 +68,9 @@ const routers = createBrowserRouter(
         }
       >
         <Route path="dashboard" element={<UDashboard />} />
+        <Route path="profile" element={<UProfile />} />
+        <Route path="task" element={<UTask />} />
+        <Route path="settings" element={<USettings />} />
       </Route>
     </Fragment>
   )

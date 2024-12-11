@@ -32,7 +32,8 @@ const Sidebar = () => {
     ],
     [roles.USER]: [
       { path: '/user/dashboard', label: 'Dashboard', icon: <FaHome /> },
-      { path: '/user/profile', label: 'Task', icon: <FaUsers /> },
+      { path: '/user/profile', label: 'Profile', icon: <FaUsers /> },
+      { path: '/user/task', label: 'Tasks', icon: <FaTasks /> },
       { path: '/user/settings', label: 'Settings', icon: <FaCog /> },
     ],
   };
