@@ -2,7 +2,10 @@ import React, { useEffect } from 'react';
 import { FaTasks, FaCheckCircle, FaClipboardList } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { getUserDashboardDataAsync } from '@/app/services/userService';
+import {
+  getUserDashboardDataAsync,
+  getRecentUserTasksAsync,
+} from '@/app/services/userService';
 import { getCurrentUser } from '@/app/services/commonService';
 
 const Dashboard = () => {
@@ -18,6 +21,12 @@ const Dashboard = () => {
     if (currentUser && currentUser.id) {
       dispatch(
         getUserDashboardDataAsync({
+          userId: currentUser.id,
+          toast,
+        })
+      );
+      dispatch(
+        getRecentUserTasksAsync({
           userId: currentUser.id,
           toast,
         })
@@ -64,7 +73,8 @@ const Dashboard = () => {
               recentTasks.map((task, index) => (
                 <li key={index} className="mb-2">
                   <span className="font-semibold">{task.title}</span> -{' '}
-                  <span className="italic">{task.status}</span>
+                  <span className="font-semibold">{task.status}</span> -{' '}
+                  <span className="italic">{task.dueDate}</span>
                 </li>
               ))
             ) : (

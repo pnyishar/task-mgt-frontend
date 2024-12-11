@@ -3,8 +3,6 @@ import Sidebar from '@/components/Sidebar';
 import { Outlet } from 'react-router-dom';
 
 const DashboardLayout = () => {
-  // const { user } = useSelector((store) => store.auth);
-  // const role = user?.roles[0]?.name;
   return (
     <div className="flex h-screen">
       {/* Sidebar */}

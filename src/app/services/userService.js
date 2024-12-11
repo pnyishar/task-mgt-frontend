@@ -16,3 +16,19 @@ export const getUserDashboardDataAsync = createAsyncThunk(
     }
   }
 );
+
+export const getRecentUserTasksAsync = createAsyncThunk(
+  'user/recentTasks',
+  async ({ userId, toast }, thunkAPI) => {
+    try {
+      const response = (await API.get(`/task/user/recent?userId=${userId}`))
+        .data;
+      if (response.status === 'OK') {
+        console.log('Recent Tasks: ' + response.data);
+        return response.data;
+      }
+    } catch (err) {
+      errorHandler(err, toast, thunkAPI);
+    }
+  }
+);

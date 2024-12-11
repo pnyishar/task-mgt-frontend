@@ -1,8 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getUserDashboardDataAsync } from '../services/userService';
+import {
+  getUserDashboardDataAsync,
+  getRecentUserTasksAsync,
+} from '../services/userService';
 
 const initialState = {
   loading: false,
+  recentTasks: [],
 };
 
 export const adminSlice = createSlice({
@@ -19,6 +23,17 @@ export const adminSlice = createSlice({
         state.loading = false;
       })
       .addCase(getUserDashboardDataAsync.rejected, (state, action) => {
+        state.errors = action.payload;
+        state.loading = false;
+      })
+      .addCase(getRecentUserTasksAsync.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getRecentUserTasksAsync.fulfilled, (state, action) => {
+        state.recentTasks = action.payload;
+        state.loading = false;
+      })
+      .addCase(getRecentUserTasksAsync.rejected, (state, action) => {
         state.errors = action.payload;
         state.loading = false;
       });
