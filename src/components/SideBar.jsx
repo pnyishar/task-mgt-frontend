@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { roles } from '@/utils/constants';
 import { toast } from 'react-toastify';
@@ -15,14 +15,14 @@ import {
 
 const Sidebar = () => {
   const { user } = useSelector((store) => store.auth);
-  const role = user?.roles[0]?.name; // Assumes roles is an array
+  const role = user?.roles[0]?.name || roles.USER;
 
   const [isCollapsed, setIsCollapsed] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // Define menu items based on role
+  // Define menu items based on roles
   const menuItems = {
     [roles.SUPERADMIN]: [
       { path: '/admin/dashboard', label: 'Dashboard', icon: <FaHome /> },
@@ -31,13 +31,20 @@ const Sidebar = () => {
       { path: '/admin/settings', label: 'Settings', icon: <FaCog /> },
     ],
     [roles.USER]: [
-      { path: '/user/dashboard', label: 'Home', icon: <FaHome /> },
-      { path: '/user/profile', label: 'Profile', icon: <FaUsers /> },
+      { path: '/user/dashboard', label: 'Dashboard', icon: <FaHome /> },
+      { path: '/user/profile', label: 'Task', icon: <FaUsers /> },
       { path: '/user/settings', label: 'Settings', icon: <FaCog /> },
     ],
   };
 
   const items = menuItems[role] || [];
+
+  // Redirect or notify if no menu items are available
+  if (!items.length) {
+    toast.error('Access denied: No menu items available for your role.');
+    navigate('/auth/login');
+    return null; // Prevent rendering the sidebar
+  }
 
   // Logout function
   const handleLogout = () => {

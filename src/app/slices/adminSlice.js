@@ -8,7 +8,7 @@ import {
 const initialState = {
   loading: false,
   users: [],
-  tasks: [],
+  taskList: [],
   currentPage: 1,
   totalPages: 1,
   totalUsers: 0,

@@ -18,6 +18,10 @@ const Signup = lazy(() => import('@/features/auth/SignupUser'));
 const Dashboard = lazy(() => import('@/features/admin/Dashboard'));
 const User = lazy(() => import('@/features/admin/User'));
 const Task = lazy(() => import('@/features/admin/Task'));
+const Settings = lazy(() => import('@/features/admin/Settings'));
+
+// User routes
+const UDashboard = lazy(() => import('@/features/user/Dashboard'));
 
 import ProtectedRoute from '@/utils/ProtectedRoute';
 import ErrorBoundary from '@/utils/ErrorBoundary';
@@ -49,6 +53,18 @@ const routers = createBrowserRouter(
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="user" element={<User />} />
         <Route path="task" element={<Task />} />
+        <Route path="settings" element={<Settings />} />
+      </Route>
+
+      <Route
+        path="user"
+        element={
+          <ProtectedRoute allowedRoles={[roles.USER]}>
+            <DashboardLayout />
+          </ProtectedRoute>
+        }
+      >
+        <Route path="dashboard" element={<UDashboard />} />
       </Route>
     </Fragment>
   )
