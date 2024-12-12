@@ -9,7 +9,7 @@ const initialState = {
   recentTasks: [],
 };
 
-export const adminSlice = createSlice({
+export const userSlice = createSlice({
   name: 'admin',
   initialState,
   reducers: {},
@@ -40,4 +40,4 @@ export const adminSlice = createSlice({
   },
 });
 
-export default adminSlice.reducer;
+export default userSlice.reducer;

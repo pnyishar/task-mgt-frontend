@@ -5,6 +5,7 @@ import {
   adminSlice,
   userSlice,
   commonSlice,
+  taskSlice,
 } from '../slices';
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -14,4 +15,5 @@ export default combineReducers({
   user: userSlice,
   common: commonSlice,
   admin: adminSlice,
+  task: taskSlice,
 });
